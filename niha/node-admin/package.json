@@ -1,0 +1,14 @@
+{
+  "name": "admin",
+  "version": "1.0.0",
+  "description": "admin",
+  "main": "index.js",
+  "scripts": {
+    "test": "admin"
+  },
+  "keywords": [
+    "admin"
+  ],
+  "author": "hari",
+  "license": "ISC"
+}

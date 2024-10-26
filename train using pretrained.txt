@@ -1,0 +1,42 @@
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.models import Sequential, load_model
+from tensorflow.keras.layers import Embedding, LSTM, Dense, Bidirectional, Dropout
+import json
+import pandas as pd
+
+# Load the dataset
+data = pd.read_csv('dataset.csv')
+
+# Prepare the data for training
+commands = data['command'].tolist()
+responses = data['response'].tolist()
+
+# Load the saved tokenizer
+with open('tokenizer.json') as f:
+    tokenizer_json = json.load(f)
+tokenizer = tf.keras.preprocessing.text.tokenizer_from_json(tokenizer_json) # Use tf.keras.preprocessing.text
+
+# Tokenize the commands and responses
+command_sequences = tokenizer.texts_to_sequences(commands)
+response_sequences = tokenizer.texts_to_sequences(responses)
+
+# Find the original sequence length the model was trained on
+model = load_model('command_model.h5')
+original_sequence_length = model.layers[0].input_shape[1] # Assuming the first layer is the input layer
+
+# Padding sequences to the original length
+command_padded = pad_sequences(command_sequences, maxlen=original_sequence_length, padding='post')
+response_padded = pad_sequences(response_sequences, maxlen=original_sequence_length, padding='post')
+
+# Prepare the input and output arrays
+X = command_padded
+y = response_padded
+
+# Continue training the model
+model.fit(X, y, epochs=50, batch_size=128, validation_split=0.2)
+
+# Save the updated model
+model.save('command_model_updated.h5')

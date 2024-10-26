@@ -1,0 +1,74 @@
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Embedding, LSTM, Dense, Bidirectional, Dropout
+import json
+import pandas as pd
+
+# Load the dataset
+data = pd.read_csv('dataset.csv')
+
+# Prepare the data for training
+commands = data['command'].tolist()
+responses = data['response'].tolist()
+
+# Tokenize the commands and responses
+tokenizer = Tokenizer()
+tokenizer.fit_on_texts(commands + responses)
+
+command_sequences = tokenizer.texts_to_sequences(commands)
+response_sequences = tokenizer.texts_to_sequences(responses)
+
+# Padding sequences to the same length
+max_length = max(max(len(seq) for seq in command_sequences), max(len(seq) for seq in response_sequences))
+command_padded = pad_sequences(command_sequences, maxlen=max_length, padding='post')
+response_padded = pad_sequences(response_sequences, maxlen=max_length, padding='post')
+
+# Prepare the input and output arrays
+X = command_padded
+y = np.expand_dims(response_padded, -1)  # Adding one more dimension for sparse_categorical_crossentropy
+
+# Define model parameters
+vocab_size = len(tokenizer.word_index) + 1
+embedding_dim = 512
+hidden_units = 1024
+
+# Build the model
+model = Sequential([
+    Embedding(input_dim=vocab_size, output_dim=embedding_dim, input_length=max_length),
+    Bidirectional(LSTM(hidden_units, return_sequences=True)),
+    Dropout(0.3),
+    Bidirectional(LSTM(hidden_units, return_sequences=True)),
+    Dropout(0.3),
+    Bidirectional(LSTM(hidden_units, return_sequences=True)),
+    Dropout(0.3),
+    LSTM(hidden_units, return_sequences=True),
+    Dropout(0.3),
+    LSTM(hidden_units, return_sequences=True),
+    Dropout(0.3),
+    LSTM(hidden_units, return_sequences=True),
+    Dropout(0.3),
+    LSTM(hidden_units, return_sequences=True),
+    Dropout(0.3),
+    LSTM(hidden_units, return_sequences=True),
+    Dense(hidden_units, activation='relu'),
+    Dense(vocab_size, activation='softmax')
+])
+
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy')
+
+# Early stopping and learning rate reduction callbacks
+early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
+reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=3, min_lr=0.0001)
+
+# Train the model with callbacks
+model.fit(X, y, epochs=50, batch_size=128, validation_split=0.2, callbacks=[early_stopping, reduce_lr])
+
+# Save the model
+model.save('command_model.h5')
+
+# Save the tokenizer
+with open('tokenizer.json', 'w') as f:
+    json.dump(tokenizer.to_json(), f)

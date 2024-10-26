@@ -1,0 +1,104 @@
+command,response
+confirm,confirm
+"yes, confirm",confirm
+please confirm,confirm
+approve,confirm
+validate,confirm
+light on,light on
+turn on the light,light on
+please lights on,light on
+activate the light,light on
+switch on the light,light on
+light off,light off
+turn off the light,light off
+please lights off,light off
+deactivate the light,light off
+switch off the light,light off
+washer on,washer on
+turn on the washer,washer on
+please washer on,washer on
+activate the washer,washer on
+switch on the washer,washer on
+washer off,washer off
+turn off the washer,washer off
+please washer off,washer off
+deactivate the washer,washer off
+switch off the washer,washer off
+microwave on,microwave on
+turn on the microwave,microwave on
+please microwave on,microwave on
+activate the microwave,microwave on
+switch on the microwave,microwave on
+microwave off,microwave off
+turn off the microwave,microwave off
+please microwave off,microwave off
+deactivate the microwave,microwave off
+switch off the microwave,microwave off
+fridge on,fridge on
+turn on the fridge,fridge on
+please fridge on,fridge on
+activate the fridge,fridge on
+switch on the fridge,fridge on
+fridge off,fridge off
+turn off the fridge,fridge off
+please fridge off,fridge off
+deactivate the fridge,fridge off
+switch off the fridge,fridge off
+TV on,TV on
+turn on the TV,TV on
+please TV on,TV on
+activate the TV,TV on
+switch on the TV,TV on
+TV off,TV off
+turn off the TV,TV off
+please TV off,TV off
+deactivate the TV,TV off
+switch off the TV,TV off
+fan on,fan on
+turn on the fan,fan on
+please fan on,fan on
+activate the fan,fan on
+switch on the fan,fan on
+fan off,fan off
+turn off the fan,fan off
+please fan off,fan off
+deactivate the fan,fan off
+switch off the fan,fan off
+AC on,AC on
+turn on the AC,AC on
+please AC on,AC on
+activate the AC,AC on
+switch on the AC,AC on
+AC off,AC off
+turn off the AC,AC off
+please AC off,AC off
+deactivate the AC,AC off
+switch off the AC,AC off
+heater on,heater on
+turn on the heater,heater on
+please heater on,heater on
+activate the heater,heater on
+switch on the heater,heater on
+heater off,heater off
+turn off the heater,heater off
+please heater off,heater off
+deactivate the heater,heater off
+switch off the heater,heater off
+list the available foods,list_food_items
+show food options,list_food_items
+what foods do you have,list_food_items
+display food choices,list_food_items
+show me the foods,list_food_items
+order,order
+place an order,order
+make an order,order
+I want to order,order
+get me an order,order
+select hotel,select hotel
+choose hotel,select hotel
+pick a hotel,select hotel
+select a hotel,select hotel
+choose any hotel,select hotel
+select any hotel,select any hotel
+pick any hotel,select any hotel
+choose any hotel,select any hotel

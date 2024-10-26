@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "999273367121",
+    "firebase_url": "https://niha-5d949-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "niha-5d949",
+    "storage_bucket": "niha-5d949.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999273367121:android:237c9de112efd486635a70",
+        "android_client_info": {
+          "package_name": "com.example.Niha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "999273367121-6stdfrttkss9893j7lbrdnts1of8sbvq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.Niha",
+            "certificate_hash": "01bb5870d96f0f260f8c6ef0bd211785467007c6"
+          }
+        },
+        {
+          "client_id": "999273367121-gku986bcesngf914aceh00ih85al4e9o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA54gW1-TPCRUr7vPfzYefvV2D-U3_UNB0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "999273367121-gku986bcesngf914aceh00ih85al4e9o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "999273367121-irku87gkeil68tj71dls7d2i7ot443cg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.niha"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999273367121:android:934f3394a9aa43c7635a70",
+        "android_client_info": {
+          "package_name": "com.example.niha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "999273367121-fl40jg5s27ch27jkmjmpigdi7s6kcbaf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.niha",
+            "certificate_hash": "01bb5870d96f0f260f8c6ef0bd211785467007c6"
+          }
+        },
+        {
+          "client_id": "999273367121-gku986bcesngf914aceh00ih85al4e9o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA54gW1-TPCRUr7vPfzYefvV2D-U3_UNB0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "999273367121-gku986bcesngf914aceh00ih85al4e9o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "999273367121-irku87gkeil68tj71dls7d2i7ot443cg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.niha"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

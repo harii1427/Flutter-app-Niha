@@ -1,0 +1,11 @@
+import joblib
+from sklearn.preprocessing import LabelEncoder
+import pandas as pd # Import pandas to read the dataset
+
+# Load the dataset
+data = pd.read_csv('dataset.csv') 
+
+# Assuming this part is in your training script after the dataset is defined
+label_encoder = LabelEncoder()
+label_encoder.fit(data['response'])  # Fit the label encoder on your responses
+joblib.dump(label_encoder, 'label_encoder.pkl')  # Save the label encoder to a file

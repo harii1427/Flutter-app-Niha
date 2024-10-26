@@ -1,0 +1,102 @@
+import torch
+import torch.nn as nn
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+
+class CommandResponseDataset:
+    def __init__(self, csv_file):
+        self.data = pd.read_csv(csv_file)
+        self.commands = self.data['command'].values
+        self.responses = self.data['response'].values
+        
+        self.label_encoder = LabelEncoder()
+        self.label_encoder.fit(self.responses)
+        
+        self.vocab = set()
+        for command in self.commands:
+            self.vocab.update(command.split())
+        self.vocab = {word: idx for idx, word in enumerate(self.vocab, 1)}
+        self.vocab['<PAD>'] = 0
+
+class ResidualBlock(nn.Module):
+    def __init__(self, hidden_dim):
+        super(ResidualBlock, self).__init__()
+        self.layer1 = nn.Linear(hidden_dim, hidden_dim)
+        self.bn1 = nn.BatchNorm1d(hidden_dim)
+        self.relu = nn.ReLU()
+        self.layer2 = nn.Linear(hidden_dim, hidden_dim)
+        self.bn2 = nn.BatchNorm1d(hidden_dim)
+        self.dropout = nn.Dropout(0.5)
+        
+    def forward(self, x):
+        identity = x
+        out = self.layer1(x)
+        out = self.bn1(out)
+        out = self.relu(out)
+        out = self.layer2(out)
+        out = self.bn2(out)
+        out = self.dropout(out)
+        out += identity
+        out = self.relu(out)
+        return out
+
+class DeepLLMModel(nn.Module):
+    def __init__(self, vocab_size, embed_dim, hidden_dim, output_dim, num_layers=500):
+        super(DeepLLMModel, self).__init__()
+        self.embedding = nn.Embedding(vocab_size, embed_dim, padding_idx=0)
+        self.input_layer = nn.Linear(embed_dim, hidden_dim)
+        self.deep_layers = nn.Sequential(
+            *[ResidualBlock(hidden_dim) for _ in range(num_layers)]
+        )
+        self.output_layer = nn.Linear(hidden_dim, output_dim)
+        
+    def forward(self, x):
+        x = self.embedding(x).mean(dim=1)  # Average the embeddings
+        x = self.input_layer(x)
+        x = self.deep_layers(x)
+        out = self.output_layer(x)
+        return out
+
+def load_model(model_class, vocab_size, embed_dim, hidden_dim, output_dim, num_layers, load_path):
+    model = model_class(vocab_size, embed_dim, hidden_dim, output_dim, num_layers)
+    model.load_state_dict(torch.load(load_path))
+    model.eval()  # Set the model to evaluation mode
+    return model
+
+def preprocess_command(command, vocab):
+    words = command.split()
+    command_encoded = [vocab.get(word, vocab['<PAD>']) for word in words]
+    return torch.tensor([command_encoded])
+
+def generate_response(model, command, vocab, label_encoder):
+    command_tensor = preprocess_command(command, vocab)
+    
+    with torch.no_grad():
+        output = model(command_tensor)
+        predicted_response_idx = output.argmax(dim=1).item()
+        predicted_response = label_encoder.inverse_transform([predicted_response_idx])[0]
+    return predicted_response
+
+def response():
+    # Load dataset to get vocabulary and label encoder
+    dataset = CommandResponseDataset('dataset.csv')
+    vocab = dataset.vocab
+    label_encoder = dataset.label_encoder
+    
+    # Define model parameters
+    vocab_size = len(vocab)
+    embed_dim = 128
+    hidden_dim = 256
+    output_dim = len(label_encoder.classes_)
+    
+    # Load the model
+    model = load_model(DeepLLMModel, vocab_size, embed_dim, hidden_dim, output_dim, num_layers=1, load_path='deep_llm_model.pth')
+    
+    # Get user input and generate response
+    test_command = input("Enter the command: ")
+    response = generate_response(model, test_command, vocab, label_encoder)
+    print(f"Response: {response}")
+
+if __name__ == "__main__":
+  while True:
+    response()

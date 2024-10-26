@@ -1,0 +1,10 @@
+{
+  "projects": {
+    "default": "niha-5d949"
+  },
+  "dataconnectEmulatorConfig": {
+    "postgres": {
+      "localConnectionString": "postgresql://localhost:5432?sslmode=disable"
+    }
+  }
+}
